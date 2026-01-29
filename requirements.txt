@@ -16,3 +16,8 @@ sqlalchemy
 prefect
 psutil
 streamlit-flow-component
+pandera
+paramiko
+tqdm
+pysftp
+glob
