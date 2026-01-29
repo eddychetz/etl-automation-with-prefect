@@ -1,8 +1,11 @@
 # # LIBRARIES
+import glob
+import os
+import sys
 import importlib
 import importlib.util
 import subprocess
-import sys
+from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 
 # ---------------------------
@@ -133,9 +136,9 @@ def ensure_grouped_dependencies(
             try:
                 mod = import_module_dotted(import_name)
                 imported[top] = mod if top == import_name else importlib.import_module(top)
-                print(f"   ✔ Imported {import_name}")
+                print(f" ✔ {import_name} Imported")
             except ImportError:
-                print(f"   ⚠️ Missing {import_name}")
+                print(f"⚠️ Missing {import_name}")
                 missing.append((import_name, pip_name))
 
     # If nothing missing, return early
@@ -165,9 +168,34 @@ def ensure_grouped_dependencies(
         top = import_name.split(".", 1)[0]
         mod = import_module_dotted(import_name)
         imported[top] = mod if top == import_name else importlib.import_module(top)
-        print(f"   ✅ Imported after install: {import_name}")
+        print(f"✅ Imported after install: {import_name}")
 
     return imported
+
+# ---------------------------
+# 6) Zipped file helpers
+# ---------------------------
+
+def get_latest_zip(directory: str, pattern: str = "Vilbev-*.zip") -> str:
+    """
+    Return the most recent ZIP matching the pattern in the given directory.
+    Ensures reliable access to the latest Vilbev file.
+    """
+    directory = Path(directory).expanduser().resolve()
+
+    # Use glob
+    files = list(directory.glob(pattern))
+
+    if not files:
+        raise FileNotFoundError(f"❌ No files found matching pattern {pattern} in {directory}")
+
+    # Sort by modification time (latest first)
+    files_sorted = sorted(files, key=os.path.getmtime, reverse=True)
+
+    latest = str(files_sorted[0])
+    print(f"📦 Latest ZIP selected: {latest}")
+
+    return latest
 
 # # Function to import libraries
 # def import_libraries(modules: list[str]):

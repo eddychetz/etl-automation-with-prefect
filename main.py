@@ -90,6 +90,7 @@ GROUPS: Dict[str, List[Tuple[str, Optional[str]]]] = {
     "ux": [
         ("tqdm", None),
         ("tqdm.notebook", None),
+        ("ipywidgets", None)
     ],
 }
 libs = ensure_grouped_dependencies(
