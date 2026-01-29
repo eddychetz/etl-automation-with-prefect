@@ -21,4 +21,3 @@ paramiko[gssapi]
 tqdm
 pysftp
 glob
-ipywidgets

@@ -1,9 +1,10 @@
 # # LIBRARIES
-import glob
 import os
 import sys
+from glob import glob
 import importlib
 import importlib.util
+from datetime import timedelta, datetime
 import subprocess
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
@@ -41,8 +42,7 @@ GROUPS: Dict[str, List[Tuple[str, Optional[str]]]] = {
         ("numpy", None),
     ],
     "sftp": [
-        ("paramiko", None),
-        ("pysftp", None),  # note: unmaintained; keep only if you must
+        ("paramiko", None) # note: unmaintained; keep only if you must
     ],
     "orchestration": [
         ("prefect", None),
@@ -104,7 +104,7 @@ def ensure_one(import_name: str, pip_name: Optional[str] = None):
     try:
         _pip_install(to_install)
     except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"pip install failed for '{to_install}': {e}") from e
+        raise RuntimeError(f"❌ pip install failed for '{to_install}': {e}") from e
 
     # Retry import
     return import_module_dotted(import_name)
@@ -196,6 +196,7 @@ def get_latest_zip(directory: str, pattern: str = "Vilbev-*.zip") -> str:
     print(f"📦 Latest ZIP selected: {latest}")
 
     return latest
+
 
 # # Function to import libraries
 # def import_libraries(modules: list[str]):
