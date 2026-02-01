@@ -17,7 +17,6 @@ prefect
 psutil
 streamlit-flow-component
 pandera
-paramiko[gssapi]
+paramiko
 tqdm
-pysftp
 glob
